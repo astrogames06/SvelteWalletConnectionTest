@@ -14,7 +14,6 @@
 body, html{
   width: 100%;
   min-height: 100vh;
-  background-color: #141414;
   color: #fff;
   font-family: 'montserrat';
 }
@@ -42,4 +41,16 @@ a{
 :root
 {
   /* --w3m-accent: red !important; */
+}
+
+.navbar {
+  /* background-color: #0d0d0d; */
+  /* height: 50px; */
+}
+
+
+#w3m-main-button
+{
+  display: flex;
+  line-height: 3.5rem;
 }

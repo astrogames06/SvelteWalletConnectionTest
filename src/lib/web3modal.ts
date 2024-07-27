@@ -1,7 +1,7 @@
 import { defaultWagmiConfig, createWeb3Modal } from '@web3modal/wagmi'
 
 import {
-	reconnect,
+	reconnect, getAccount
 } from '@wagmi/core'
 
 import {
@@ -20,7 +20,7 @@ import {
 	goerli,
 	ronin,
 	saigon,
-	dogechain
+	dogechain,
 } from 'viem/chains'
 
 const projectId = "bd9425e479238b5be58b574c55534f34";
@@ -33,22 +33,8 @@ const metadata = {
 }
 
 export const chains = [
-	arbitrum,
-	aurora,
-	avalanche,
-	base,
-	bsc,
-	celo,
-	gnosis,
 	mainnet,
-	optimism,
-	polygon,
-	zkSync,
-	zora,
-	goerli,
-	ronin,
-	saigon,
-	dogechain,
+	polygon
 ] as const
 
 export const wagmiConfig = defaultWagmiConfig({
@@ -68,3 +54,8 @@ createWeb3Modal({
 	featuredWalletIds: [],
 	enableAnalytics: true,
 })
+
+export function get_address()
+{
+	return getAccount(wagmiConfig).address;
+}
