@@ -47,7 +47,7 @@ export const wagmiConfig = defaultWagmiConfig({
 
 reconnect(wagmiConfig)
 
-createWeb3Modal({
+export let modal = createWeb3Modal({
 	wagmiConfig,
 	projectId,
 	themeMode: 'dark',

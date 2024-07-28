@@ -3,21 +3,25 @@
 	import '../lib/web3modal'
 
 	import Fa from 'svelte-fa'
-	import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
+	import { faMoon, faSun, faDollarSign } from '@fortawesome/free-solid-svg-icons'
 
-	let isDarkMode = false;
+	import { onMount } from 'svelte';
+	import { writable } from 'svelte/store';
+	import Web3 from 'web3';
+	import { get_address, modal } from '../lib/web3modal'
+
+	let isDarkMode = true;
+	
 	function toggleDarkMode() {
 		isDarkMode = !isDarkMode;
 		if (isDarkMode) {
 			document.documentElement.classList.add('dark');
+			modal.setThemeMode('dark');
 		} else {
 			document.documentElement.classList.remove('dark');
+			modal.setThemeMode('light');
 		}
 	}
-	import { onMount } from 'svelte';
-	import { writable } from 'svelte/store';
-	import Web3 from 'web3';
-	import { get_address } from '../lib/web3modal'
 
   	const ethBalance = writable('Loading...');
 
@@ -26,7 +30,7 @@
 
 	type EthereumAddress = `0x${string}`;
 
-	let address: EthereumAddress = '0x8A142652c613309A31ce3D47292c1cE5337d438f';
+	let address: EthereumAddress = `0x${get_address()?.toString().replace('0x', '')}`;
 
 	async function getEthBalance(address: EthereumAddress) {
 		try {
@@ -39,6 +43,7 @@
 
 	onMount(() => {
 		getEthBalance(address);
+		document.documentElement.classList.add('dark');
 	});
 
 	let got_address = get_address();
@@ -46,14 +51,16 @@
 
 <i class="fa-regular fa-moon"></i>
 
-<div class="navbar w-full flex justify-end h-14 items-center dark:bg-zinc-800 bg-slate-300">
+<div class="navbar w-full flex justify-end h-14 items-center dark:bg-zinc-800 bg-[#FAFAFA]">
 	<w3m-button id="w3m-main-button" class="mr-5"/>
 	<button id="toggleDarkModeBtn" on:click={toggleDarkMode}>
-		<Fa icon={!isDarkMode ? faSun : faMoon} class="mr-5" />
+		<Fa icon={!isDarkMode ? faSun : faMoon} class="mr-5 text-zinc-800 dark:text-white" />
 	</button>
 	
 </div>
 
-<h1 class="text-black dark:text-zinc-400 text-center">Ethereum Balance</h1>
+<h1 class="text-black dark:text-zinc-400 text-center underline text-xl flex items-center justify-center">
+	<Fa icon={faDollarSign} class="mr-2" /> Ethereum Balance:
+</h1>
 <p class="text-black dark:text-zinc-400 text-center">{$ethBalance}</p>
 <p class="text-black dark:text-zinc-400 text-center">{got_address}</p>
